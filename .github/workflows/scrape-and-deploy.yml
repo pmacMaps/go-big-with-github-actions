@@ -1,4 +1,4 @@
-name: Scrape and Deploy
+name: Scrape and deploy
 
 on:
   workflow_dispatch:
@@ -37,6 +37,7 @@ jobs:
         with:
           name: data
           path: ./data/
+
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -53,15 +54,16 @@ jobs:
       - name: Install dependencies
         run: npm install --prefix site
 
-      - name: Donwload data
+      - name: Download data
         uses: actions/download-artifact@v7
         with:
-          name: site/src/data/
+          name: data
+          path: site/src/data/
 
       - name: Build
         run: npm run build --prefix site
 
-      - name: Uploade release candidate
+      - name: Upload release candidate
         uses: actions/upload-pages-artifact@v4
         with:
           path: "site/dist"
